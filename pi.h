@@ -28,8 +28,8 @@ double pi_calc(long int n) {
     int inside = 0;
 
     while (i < assigned_points) {
-        double x = rand() / RAND_MAX;
-        double y = rand() / RAND_MAX;
+        double x = static_cast<double>(rand()) / RAND_MAX;
+        double y = static_cast<double>(rand()) / RAND_MAX;
 
         double length = std::sqrt(x*x + y*y);
         if (length <= 1.0) {
@@ -39,8 +39,8 @@ double pi_calc(long int n) {
         i++;
     }
 
-    double global_sum;
-    MPI_Reduce(&inside, &global_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    int global_sum;
+    MPI_Reduce(&inside, &global_sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
         double result = 4.0 * global_sum / n;
