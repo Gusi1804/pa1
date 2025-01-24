@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <iostream>
 #include <mpi.h>
-
+#include <cmath>
 
 double pi_calc(long int n) {
     
@@ -21,17 +21,17 @@ double pi_calc(long int n) {
 
     int assigned_points = n / size;
     if (rank == 0) {
-        assigned_points =+ n % size; // assign the remainder when n doesn't divide evenly into p to processor 0
+        assigned_points += n % size; // assign the remainder when n doesn't divide evenly into p to processor 0
     }
 
     int i = 0;
     int inside = 0;
 
     while (i < assigned_points) {
-        double x = rand();
-        double y = rand();
+        double x = rand() / RAND_MAX;
+        double y = rand() / RAND_MAX;
 
-        double length = x*x + y*y;
+        double length = std::sqrt(x*x + y*y);
         if (length <= 1.0) {
             inside++;
         }
